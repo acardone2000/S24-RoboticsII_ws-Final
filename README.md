@@ -3,7 +3,7 @@
 **Authors: Andrew Cardone(acardone2000), Xavier Quiroz(quirox154),Jack Zhong (zhongj5)**
 
 
-# S24_roboticsII
+# S24_roboticsII_Final_Project
 ROS2 Workspace for S24 RoboticsII
 
 For robot issues, please refer to [this document](https://www.overleaf.com/read/jckcnqkwytvb#22a42e).
