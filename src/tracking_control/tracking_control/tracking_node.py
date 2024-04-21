@@ -4,12 +4,12 @@ from geometry_msgs.msg import Twist, PoseStamped
 from tf2_ros import TransformException, Buffer, TransformListener
 import numpy as np
 import math
-import time
-from datetime import datetime and timedelta
 
 ## Functions for quaternion and rotation matrix conversion
 ## The code is adapted from the general_robotics_toolbox package
 ## Code reference: https://github.com/rpiRobotics/rpi_general_robotics_toolbox_py
+
+timer_count = 0
 class SimpleKalmanFilter:
     def __init__(self, dim_x, dim_z, process_noise, measurement_noise):
         self.dim_x = dim_x
@@ -120,6 +120,7 @@ class TrackingNode(Node):
     
         # Create timer, running at 100Hz
         self.timer = self.create_timer(0.01, self.timer_update)
+        timer_count = timer_count + 1
 
         self.kf = SimpleKalmanFilter(dim_x=4, dim_z=2, process_noise=1, measurement_noise=1)
         self.kf.x = np.array([0., 0., 0., 0.])
@@ -231,11 +232,7 @@ class TrackingNode(Node):
         # publish the control command
         self.pub_control_cmd.publish(cmd_vel)
         #################################################
-    def rightturn(self):
-        cmd_vel.linear.x = 0
-        cmd_vel.linear.y = 0
-        cmd_vel.angular.z = 0.5
-        time.sleep(3)
+
     def controller(self):
         # Instructions: You can implement your own control algorithm here
         # feel free to modify the code structure, add more parameters, more input variables for the function, etc.
@@ -244,8 +241,18 @@ class TrackingNode(Node):
         
         # TODO: Update the control velocity command
 
-        start_time = datetime.now()
-        
+        if timer_count < 500 
+            cmd_vel.linear.x = 0
+            cmd_vel.linear.y = 0.2
+            cmd_vel.angular.z = 0
+            if self.last_known_obj_pose is not None:
+                
+        elif timer_count < 800
+            cmd_vel.linear.x = 0
+            cmd_vel.linear.y = 0
+            cmd_vel.angular.z = 0.5
+        else 
+            timer_count = 0
 
         #Dynamic gain adjustment factor
         linear_gain_factor = 0.3
