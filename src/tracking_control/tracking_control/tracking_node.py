@@ -247,7 +247,34 @@ class TrackingNode(Node):
             cmd_vel.linear.y = 0.2
             cmd_vel.angular.z = 0
             if self.last_known_obj_pose is not None:
-                
+                #Dynamic gain adjustment factor
+                linear_gain_factor = 0.3
+                angular_gain_factor = 0.5
+
+                #Calculate distance and angle to the object
+                distance = np.linalg.norm(self.obj_pose[:2]) #distance based on x and y mesurments
+                angle = math.atan2(self.obj_pose[1], self.obj_pose[0]) #Angle to object
+
+                linear_gain = self.linear_gain_base + linear_gain_factor * (distance - self.stop_distance)
+                angular_gain = self.angular_gain_base + angular_gain_factor * abs(angle)
+
+                linear_gain=max(linear_gain, 0.1)
+                angular_gain = max(angular_gain, 0.1)
+        
+                cmd_vel = Twist()
+
+                #Check if we are close enough to stop location
+                if distance > self.stop_distance:
+                    # Adjust linear velocity based on distance, reduces speed as it gets closer
+                    cmd_vel.linear.x = linear_gain * ( distance - self.stop_distance )
+
+                    #Adjust angular velocity based on the angle, sharper turn for larger angles
+                    cmd_vel.angular.z = angular_gain * angle
+        
+                else:
+                    #Stop moving if close enough
+                    cmd_vel.linear.x = 0
+                    cmd_vel.angular.z =0
         elif timer_count <= 800
             timer_count = timer_count + 1
             cmd_vel.linear.x = 0
@@ -260,44 +287,11 @@ class TrackingNode(Node):
         else 
             timer_count = 0
             path_counter = path_counter + 1
-
-        #Dynamic gain adjustment factor
-        linear_gain_factor = 0.3
-        angular_gain_factor = 0.5
-
-       
-
-        #Calculate distance and angle to the object
-        distance = np.linalg.norm(self.obj_pose[:2]) #distance based on x and y mesurments
-        angle = math.atan2(self.obj_pose[1], self.obj_pose[0]) #Angle to object
-
-        linear_gain = self.linear_gain_base + linear_gain_factor * (distance - self.stop_distance)
-        angular_gain = self.angular_gain_base + angular_gain_factor * abs(angle)
-
-        linear_gain=max(linear_gain, 0.1)
-        angular_gain = max(angular_gain, 0.1)
-        
-        cmd_vel = Twist()
-
-        #Check if we are close enough to stop location
-        if distance > self.stop_distance:
-            # Adjust linear velocity based on distance, reduces speed as it gets closer
-            cmd_vel.linear.x = linear_gain * ( distance - self.stop_distance )
-
-            #Adjust angular velocity based on the angle, sharper turn for larger angles
-            cmd_vel.angular.z = angular_gain * angle
-        
-        else:
-            #Stop moving if close enough
-            cmd_vel.linear.x = 0
-            cmd_vel.angular.z =0
-
-        
             
-        self.get_logger().info(f"Distance: {distance}, Angle: {angle}")
-        self.get_logger().info(f"Linear Gain: {linear_gain}, Angular Gain: {angular_gain}")
-        self.get_logger().info(f"Command Velocity - Linear: {cmd_vel.linear.x}, Angular: {cmd_vel.angular.z}")
-        self.get_logger().info(f"Angular Gain Factor: {angular_gain_factor}, Angle: {angle}, Angular Gain: {angular_gain}")
+        #self.get_logger().info(f"Distance: {distance}, Angle: {angle}")
+        #self.get_logger().info(f"Linear Gain: {linear_gain}, Angular Gain: {angular_gain}")
+        #self.get_logger().info(f"Command Velocity - Linear: {cmd_vel.linear.x}, Angular: {cmd_vel.angular.z}")
+        #self.get_logger().info(f"Angular Gain Factor: {angular_gain_factor}, Angle: {angle}, Angular Gain: {angular_gain}")
         
         return cmd_vel
     
