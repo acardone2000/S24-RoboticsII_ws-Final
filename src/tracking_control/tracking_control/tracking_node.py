@@ -4,6 +4,8 @@ from geometry_msgs.msg import Twist, PoseStamped
 from tf2_ros import TransformException, Buffer, TransformListener
 import numpy as np
 import math
+import time
+from datetime import datetime and timedelta
 
 ## Functions for quaternion and rotation matrix conversion
 ## The code is adapted from the general_robotics_toolbox package
@@ -229,7 +231,11 @@ class TrackingNode(Node):
         # publish the control command
         self.pub_control_cmd.publish(cmd_vel)
         #################################################
-    
+    def rightturn(self):
+        cmd_vel.linear.x = 0
+        cmd_vel.linear.y = 0
+        cmd_vel.angular.z = 0.5
+        time.sleep(3)
     def controller(self):
         # Instructions: You can implement your own control algorithm here
         # feel free to modify the code structure, add more parameters, more input variables for the function, etc.
@@ -237,6 +243,9 @@ class TrackingNode(Node):
         ########### Write your code here ###########
         
         # TODO: Update the control velocity command
+
+        start_time = datetime.now()
+        
 
         #Dynamic gain adjustment factor
         linear_gain_factor = 0.3
