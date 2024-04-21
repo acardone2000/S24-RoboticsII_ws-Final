@@ -120,7 +120,7 @@ class TrackingNode(Node):
     
         # Create timer, running at 100Hz
         self.timer = self.create_timer(0.01, self.timer_update)
-        timer_count = timer_count + 1
+        
 
         self.kf = SimpleKalmanFilter(dim_x=4, dim_z=2, process_noise=1, measurement_noise=1)
         self.kf.x = np.array([0., 0., 0., 0.])
@@ -241,18 +241,25 @@ class TrackingNode(Node):
         
         # TODO: Update the control velocity command
 
-        if timer_count < 500 
+        if timer_count <= 500 
+            timer_count = timer_count + 1
             cmd_vel.linear.x = 0
             cmd_vel.linear.y = 0.2
             cmd_vel.angular.z = 0
             if self.last_known_obj_pose is not None:
                 
-        elif timer_count < 800
+        elif timer_count <= 800
+            timer_count = timer_count + 1
             cmd_vel.linear.x = 0
             cmd_vel.linear.y = 0
             cmd_vel.angular.z = 0.5
+        elif path_counter <=4     
+            cmd_vel.linear.x = 0
+            cmd_vel.linear.y = 0
+            cmd_vel.angular.z = 0
         else 
             timer_count = 0
+            path_counter = path_counter + 1
 
         #Dynamic gain adjustment factor
         linear_gain_factor = 0.3
