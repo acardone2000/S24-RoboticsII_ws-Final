@@ -246,7 +246,7 @@ class TrackingNode(Node):
             cmd_vel.linear.x = 0
             cmd_vel.linear.y = 0.2
             cmd_vel.angular.z = 0
-            if self.last_known_obj_pose is not None:
+            if self.get_current_object_pose() is not None:
                 #Dynamic gain adjustment factor
                 linear_gain_factor = 0.3
                 angular_gain_factor = 0.5
