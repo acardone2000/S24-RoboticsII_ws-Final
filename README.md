@@ -16,13 +16,13 @@ Press the `Fork` on the page and fork the repo to your account. This will create
 On the robot, open a new terminal (via VNC or SSH)
 ```
 cd ~/codes
-git clone https://github.com/acardone2000/S24_roboticsII_ws.git JAX_ws
+git clone [https://github.com/acardone2000/S24_roboticsII_ws.git](https://github.com/acardone2000/S24-RoboticsII_ws-Final) JAX_ws_Final
 ```
 ## Updating repository 
 >[!NOTE]
 >**Docker**: Open a terminal and access docker (via VNC or SSH). 
 ```
-cd ~/codes/JAX_ws
+cd ~/codes/JAX_ws_Final
 git pull
 
 ```
@@ -42,7 +42,7 @@ or access (execute) a running docker container
 
 Then run this command to build your work space.
 ```
-cd ~/codes/JAX_ws
+cd ~/codes/JAX_ws_Final
 colcon build
 ```
 
