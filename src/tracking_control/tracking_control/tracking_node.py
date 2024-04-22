@@ -4,6 +4,7 @@ from geometry_msgs.msg import Twist, PoseStamped
 from tf2_ros import TransformException, Buffer, TransformListener
 import numpy as np
 import math
+import sys, select, termios, tty
 
 msg = """
 press b for blue 
