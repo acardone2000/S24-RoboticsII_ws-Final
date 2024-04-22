@@ -5,6 +5,22 @@ from tf2_ros import TransformException, Buffer, TransformListener
 import numpy as np
 import math
 
+msg = """
+press b for blue 
+press r for red
+press y for yellow
+"""
+
+moveBindings={'b':0, 'r':1, 'y':2}
+
+keySettings=termios.tcgetattr(sys.stdin)
+def getKey():
+    tty.setraw(sys.stdin.fileno())
+    rlist, _, _ = select.select([sys.stdin], [], [], 0.1)
+    if rlist: key = sys.stdin.read(1)
+    else: key = ''
+    termios.tcsetattr(sys.stdin, termios.TCSADRAIN, keySettings)
+    return key
 ## Functions for quaternion and rotation matrix conversion
 ## The code is adapted from the general_robotics_toolbox package
 ## Code reference: https://github.com/rpiRobotics/rpi_general_robotics_toolbox_py
