@@ -241,7 +241,7 @@ class TrackingNode(Node):
         
         # TODO: Update the control velocity command
 
-        if timer_count <= 500 
+        if timer_count <= 500: 
             timer_count = timer_count + 1
             cmd_vel.linear.x = 0
             cmd_vel.linear.y = 0.2
@@ -275,16 +275,16 @@ class TrackingNode(Node):
                     #Stop moving if close enough
                     cmd_vel.linear.x = 0
                     cmd_vel.angular.z =0
-        elif timer_count <= 800
+        elif timer_count <= 800:
             timer_count = timer_count + 1
             cmd_vel.linear.x = 0
             cmd_vel.linear.y = 0
             cmd_vel.angular.z = 0.5
-        elif path_counter <=4     
+        elif path_counter <=4:     
             cmd_vel.linear.x = 0
             cmd_vel.linear.y = 0
             cmd_vel.angular.z = 0
-        else 
+        else: 
             timer_count = 0
             path_counter = path_counter + 1
             
